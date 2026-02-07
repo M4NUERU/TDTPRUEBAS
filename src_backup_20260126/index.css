@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+:root {
+  font-family: 'Inter', sans-serif;
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-ui: #e2e8f0;
+  --brand: #2563eb;
+  --brand-hover: #1d4ed8;
+  --bg-input: #f1f5f9;
+}
+
+.dark {
+  --bg-main: #0a0f18;
+  --bg-card: #141b2b;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border-ui: #1e293b;
+  --brand: #3b82f6;
+  --brand-hover: #2563eb;
+  --bg-input: #1e293b;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: all 0.2s ease;
+}
+
+@layer base {
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+}
+
+/* Custom styles for the app */
+.btn-large {
+  @apply py-6 px-8 text-xl font-bold rounded-2xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-3;
+}
+
+.card-industrial {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  @apply rounded-xl p-4 shadow-sm;
+}
