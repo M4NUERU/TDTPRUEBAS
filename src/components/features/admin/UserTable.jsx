@@ -11,6 +11,7 @@ export const UserTable = ({ users, onEdit, onDelete, onResetPassword }) => {
                         <tr className="bg-[var(--bg-input)] border-b border-[var(--border-ui)]">
                             <th className="px-6 py-4 text-[9px] font-black uppercase text-[var(--text-muted)] tracking-widest">Usuario</th>
                             <th className="px-6 py-4 text-[9px] font-black uppercase text-[var(--text-muted)] tracking-widest">Rol</th>
+                            <th className="px-6 py-4 text-[9px] font-black uppercase text-[var(--text-muted)] tracking-widest">Empresa</th>
                             <th className="px-6 py-4 text-[9px] font-black uppercase text-[var(--text-muted)] tracking-widest">Sucursal</th>
                             <th className="px-6 py-4 text-[9px] font-black uppercase text-[var(--text-muted)] tracking-widest text-right">Acciones</th>
                         </tr>
@@ -31,6 +32,12 @@ export const UserTable = ({ users, onEdit, onDelete, onResetPassword }) => {
                                 </td>
                                 <td className="px-6 py-4">
                                     <Badge variant={user.rol === 'ADMIN' ? 'danger' : 'default'}>{user.rol}</Badge>
+                                </td>
+                                <td className="px-6 py-4">
+                                    <span className={`font-black text-[10px] uppercase px-2 py-1 rounded-md ${user.empresa === 'EMADERA' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'
+                                        }`}>
+                                        {user.empresa || 'TODOTEJIDOS'}
+                                    </span>
                                 </td>
                                 <td className="px-6 py-4">
                                     <span className="font-bold text-[10px] text-[var(--text-muted)] uppercase">{user.sucursal || 'GENERAL'}</span>

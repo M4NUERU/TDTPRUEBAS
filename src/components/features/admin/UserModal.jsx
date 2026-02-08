@@ -9,14 +9,15 @@ export const UserModal = ({ isOpen, onClose, onSave, editingUser }) => {
         username: '',
         pin_acceso: '',
         rol: 'OPERARIO',
-        sucursal: 'BODEGA_PRINCIPAL'
+        sucursal: 'BODEGA_PRINCIPAL',
+        empresa: 'TODOTEJIDOS'
     });
 
     useEffect(() => {
         if (editingUser) {
-            setFormData({ ...editingUser, pin_acceso: '' }); // Don't show PIN
+            setFormData({ ...editingUser, pin_acceso: '', empresa: editingUser.empresa || 'TODOTEJIDOS' }); // Don't show PIN
         } else {
-            setFormData({ nombre: '', username: '', pin_acceso: '', rol: 'OPERARIO', sucursal: 'BODEGA_PRINCIPAL' });
+            setFormData({ nombre: '', username: '', pin_acceso: '', rol: 'OPERARIO', sucursal: 'BODEGA_PRINCIPAL', empresa: 'TODOTEJIDOS' });
         }
     }, [editingUser, isOpen]);
 
@@ -79,6 +80,18 @@ export const UserModal = ({ isOpen, onClose, onSave, editingUser }) => {
                             <option value="SUPERVISOR">SUPERVISOR</option>
                             <option value="DESPACHADOR">DESPACHADOR</option>
                             <option value="ADMIN">ADMINISTRADOR</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label className="text-[9px] font-black uppercase text-[var(--text-muted)] mb-1 block ml-1">Empresa</label>
+                        <select
+                            className="w-full px-4 py-3 bg-[var(--bg-input)] rounded-xl font-bold uppercase text-xs outline-none dark:text-white border border-[var(--border-ui)]"
+                            value={formData.empresa}
+                            onChange={e => setFormData({ ...formData, empresa: e.target.value })}
+                        >
+                            <option value="TODOTEJIDOS">TODO TEJIDOS</option>
+                            <option value="EMADERA">E-MADERA</option>
                         </select>
                     </div>
                 </div>

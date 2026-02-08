@@ -34,7 +34,8 @@ const Finanzas = () => {
         categoria: 'INSUMOS',
         monto: '',
         descripcion: '',
-        fecha: new Date().toISOString().split('T')[0]
+        fecha: new Date().toISOString().split('T')[0],
+        empresa: 'TODOTEJIDOS'
     });
 
     // Payroll Form
@@ -94,7 +95,7 @@ const Finanzas = () => {
             toast.success('Transacción registrada');
             setIsTransModalOpen(false);
             fetchTransactions();
-            setTransForm({ tipo: 'EGRESO', categoria: 'INSUMOS', monto: '', descripcion: '', fecha: new Date().toISOString().split('T')[0] });
+            setTransForm({ tipo: 'EGRESO', categoria: 'INSUMOS', monto: '', descripcion: '', fecha: new Date().toISOString().split('T')[0], empresa: 'TODOTEJIDOS' });
         } catch (err) {
             toast.error('Error al guardar: ' + err.message);
         }
@@ -191,6 +192,7 @@ const Finanzas = () => {
         const record = {
             empleado_id: selectedWorker.id,
             nombre_empleado: selectedWorker.nombre,
+            empresa: selectedWorker.empresa || 'TODOTEJIDOS',
             ...payrollData,
             total_pagado: total,
             fecha_pago: new Date().toISOString().split('T')[0],
@@ -209,7 +211,8 @@ const Finanzas = () => {
                 monto: total,
                 descripcion: `Pago Nómina: ${selectedWorker.nombre}`,
                 fecha: new Date().toISOString().split('T')[0],
-                referencia_id: selectedWorker.id
+                referencia_id: selectedWorker.id,
+                empresa: selectedWorker.empresa || 'TODOTEJIDOS'
             };
             await supabase.from('finanzas').insert([expense]);
 
@@ -313,6 +316,10 @@ const Finanzas = () => {
                                             <h4 className="font-black text-[var(--text-main)] uppercase text-xs tracking-tight">{t.descripcion || 'Sin descripción'}</h4>
                                             <div className="flex gap-2 mt-1">
                                                 <span className="text-[9px] font-bold text-[var(--text-muted)] uppercase bg-[var(--bg-input)] px-2 py-0.5 rounded-lg">{t.categoria}</span>
+                                                <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${t.empresa === 'EMADERA' ? 'bg-orange-600 text-white' : 'bg-blue-600 text-white'
+                                                    }`}>
+                                                    {t.empresa || 'TODOTEJIDOS'}
+                                                </span>
                                                 <span className="text-[9px] font-bold text-[var(--text-muted)] uppercase opacity-60">{t.fecha}</span>
                                             </div>
                                         </div>
@@ -439,6 +446,18 @@ const Finanzas = () => {
                                     <option value="SERVICIOS">Servicios</option>
                                     <option value="NOMINA">Nómina</option>
                                     <option value="VARIOS">Varios</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-1">
+                                <label className="text-[9px] font-black text-[var(--text-muted)] uppercase tracking-widest ml-1">Empresa</label>
+                                <select
+                                    className="w-full p-4 bg-[var(--bg-input)] border border-[var(--border-ui)] rounded-2xl font-black text-xs text-[var(--text-main)] outline-none"
+                                    value={transForm.empresa}
+                                    onChange={e => setTransForm({ ...transForm, empresa: e.target.value })}
+                                >
+                                    <option value="TODOTEJIDOS">TODOTEJIDOS</option>
+                                    <option value="EMADERA">EMADERA</option>
                                 </select>
                             </div>
 

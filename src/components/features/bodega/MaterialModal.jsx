@@ -18,7 +18,8 @@ export const MaterialModal = ({ isOpen, onClose, onSave, editingItem }) => {
         cantidad: 0,
         unidad_medida: 'Metros',
         categoria: 'TELAS',
-        observaciones: ''
+        observaciones: '',
+        empresa: 'TODOTEJIDOS'
     });
     const [loading, setLoading] = useState(false);
 
@@ -26,10 +27,11 @@ export const MaterialModal = ({ isOpen, onClose, onSave, editingItem }) => {
         if (editingItem) {
             setFormData({
                 id: editingItem.id,
-                ...editingItem
+                ...editingItem,
+                empresa: editingItem.empresa || 'TODOTEJIDOS'
             });
         } else {
-            setFormData({ nombre: '', cantidad: 0, unidad_medida: 'Metros', categoria: 'TELAS', observaciones: '' });
+            setFormData({ nombre: '', cantidad: 0, unidad_medida: 'Metros', categoria: 'TELAS', observaciones: '', empresa: 'TODOTEJIDOS' });
         }
     }, [editingItem, isOpen]);
 
@@ -77,6 +79,18 @@ export const MaterialModal = ({ isOpen, onClose, onSave, editingItem }) => {
                             value={formData.unidad_medida}
                             onChange={val => setFormData({ ...formData, unidad_medida: val })}
                         />
+                    </div>
+
+                    <div>
+                        <label className="text-[9px] font-black uppercase text-[var(--text-muted)] mb-1 block ml-1">Empresa Dueña</label>
+                        <select
+                            className="w-full px-4 py-3 bg-[var(--bg-input)] rounded-xl font-bold uppercase text-xs outline-none dark:text-white border border-[var(--border-ui)]"
+                            value={formData.empresa}
+                            onChange={e => setFormData({ ...formData, empresa: e.target.value })}
+                        >
+                            <option value="TODOTEJIDOS">TODOTEJIDOS</option>
+                            <option value="EMADERA">EMADERA</option>
+                        </select>
                     </div>
 
                     <div>

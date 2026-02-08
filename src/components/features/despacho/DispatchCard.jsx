@@ -9,6 +9,10 @@ export const DispatchCard = ({ order, isSelected, onToggleSelect, onDispatch, sh
             <div className="p-6 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-4">
                     <Badge variant="info" className="px-3 py-1 text-xs">{order.orden_compra}</Badge>
+                    <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${order.empresa === 'EMADERA' ? 'bg-orange-600 text-white' : 'bg-blue-600 text-white'
+                        }`}>
+                        {order.empresa || 'TODOTEJIDOS'}
+                    </span>
                     <button
                         onClick={(e) => { e.stopPropagation(); onToggleSelect(order.id); }}
                         className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all ${isSelected ? 'bg-blue-600 border-blue-600' : 'border-[var(--border-ui)] bg-[var(--bg-input)]'}`}

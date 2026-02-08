@@ -14,6 +14,10 @@ export const ProductRow = ({ item, onUpdateStock, onEdit, onDelete, canEdit, isA
                         <Badge variant="outline" className="border-slate-200 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400">
                             {item.categoria}
                         </Badge>
+                        <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${item.empresa === 'EMADERA' ? 'bg-orange-600 text-white' : 'bg-blue-600 text-white'
+                            }`}>
+                            {item.empresa || 'TODOTEJIDOS'}
+                        </span>
                         {isLow && <Badge variant="danger">BAJO</Badge>}
                     </div>
                     <span className="text-[9px] font-bold text-[var(--text-muted)] uppercase italic mt-1 line-clamp-1">
