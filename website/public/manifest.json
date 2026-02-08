@@ -1,0 +1,10 @@
+{
+    "name": "TODOTEJIDOS SAS",
+    "short_name": "TODOTEJIDOS",
+    "description": "Muebles Artesanales Colombia",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#1c1917",
+    "icons": []
+}

@@ -1,0 +1,95 @@
+'use client'
+
+import { use } from 'react'
+import Header from '@/components/ui/Header'
+import Footer from '@/components/ui/Footer'
+import { getProductsByCategory } from '@/lib/data'
+import { Product } from '@/lib/types'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+
+const categoryNames: Record<string, string> = {
+    'sala': 'Salas',
+    'sofa': 'Sofás',
+    'sofacama': 'Sofacamas',
+    'sillon': 'Sillones',
+    'basecama': 'Basecamas',
+    'puff': 'Puffs'
+}
+
+export default function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+    const resolvedParams = use(params)
+    const slug = resolvedParams.slug
+    const products = getProductsByCategory(slug as any)
+    const categoryTitle = categoryNames[slug] || slug.charAt(0).toUpperCase() + slug.slice(1)
+
+    return (
+        <main className="min-h-screen bg-white">
+            <Header />
+
+            <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+                <header className="mb-12">
+                    <h1 className="font-display text-5xl font-semibold text-stone-900 mb-4">
+                        {categoryTitle}
+                    </h1>
+                    <p className="text-stone-500 max-w-2xl">
+                        Descubre nuestra colección exclusiva de {categoryTitle.toLowerCase()},
+                        diseñados para elevar la estética y el confort de tu hogar.
+                    </p>
+                </header>
+
+                {products.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {products.map((product, index) => (
+                            <motion.div
+                                key={product.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                className="group"
+                            >
+                                <Link href={`/producto/${product.slug}`}>
+                                    <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-stone-100 mb-6">
+                                        {/* Image Placeholder if actual images missing */}
+                                        <div className="absolute inset-0 flex items-center justify-center text-stone-300 font-display text-2xl uppercase tracking-widest text-center px-8">
+                                            {product.name}
+                                        </div>
+
+                                        {/* Gradient Overlay */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                        {/* Action Button */}
+                                        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-10">
+                                            <span className="bg-white text-stone-900 px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-xl">
+                                                Ver Detalles
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <h3 className="text-xl font-semibold text-stone-900 mb-1 group-hover:text-brand-gold transition-colors">
+                                        {product.name}
+                                    </h3>
+                                    <div className="flex items-center justify-between">
+                                        <p className="text-stone-500 text-sm">Desde ${product.basePrice.toLocaleString()}</p>
+                                        {product.has3DView && (
+                                            <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-md uppercase tracking-tighter">
+                                                3D / AR
+                                            </span>
+                                        )}
+                                    </div>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="py-20 text-center border-2 border-dashed border-stone-100 rounded-[3rem]">
+                        <p className="text-stone-400">Próximamente más productos en esta categoría.</p>
+                    </div>
+                )}
+            </section>
+
+            <Footer />
+        </main>
+    )
+}
