@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { toast } from 'sonner';
+import { deducirMaterialesDeProduccion } from '../api/bodegaService';
 
 export const useProduction = (selectedDate) => {
     const [assignments, setAssignments] = useState([]);
@@ -36,6 +37,13 @@ export const useProduction = (selectedDate) => {
                 unidades_completadas: 0
             }]);
             if (error) throw error;
+
+            // Deduct inventory automatically
+            const { data: order } = await supabase.from('pedidos').select('producto').eq('id', orderId).single();
+            if (order) {
+                deducirMaterialesDeProduccion(order.producto, quantity);
+            }
+
             toast.success('Asignación creada');
             fetchAssignments();
             return true;
@@ -56,16 +64,22 @@ export const useProduction = (selectedDate) => {
         }
     };
 
-    const updateProgress = async (assignment, delta) => {
+    const updateProgress = async (assignment, delta, qualityData = null) => {
         const newCompleted = Math.max(0, Math.min(assignment.unidades_totales, assignment.unidades_completadas + delta));
         const isFinished = newCompleted === assignment.unidades_totales;
 
+        const payload = {
+            unidades_completadas: newCompleted,
+            estado: isFinished ? 'TERMINADO' : 'PENDIENTE'
+        };
+
+        if (qualityData) {
+            payload.calidad = qualityData;
+        }
+
         const { error } = await supabase
             .from('asignaciones')
-            .update({
-                unidades_completadas: newCompleted,
-                estado: isFinished ? 'TERMINADO' : 'PENDIENTE'
-            })
+            .update(payload)
             .eq('id', assignment.id);
 
         if (!error) {

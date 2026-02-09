@@ -1,8 +1,8 @@
 import React from 'react';
-import { User, Plus, Minus, Trash2, Clock } from 'lucide-react';
+import { User, Plus, Minus, Trash2, Clock, ShieldCheck } from 'lucide-react';
 import { Button } from '../../ui/Button';
 
-export const WorkerCard = ({ worker, assignments, onAssign, onRemoveAssignment, onUpdateProgress, isOperario }) => {
+export const WorkerCard = ({ worker, assignments, onAssign, onRemoveAssignment, onUpdateProgress, isOperario, onQualityOpen }) => {
     const total = assignments.reduce((acc, a) => acc + a.unidades_totales, 0);
     const done = assignments.reduce((acc, a) => acc + a.unidades_completadas, 0);
 
@@ -34,9 +34,18 @@ export const WorkerCard = ({ worker, assignments, onAssign, onRemoveAssignment, 
                                 <span className="text-[7px] font-black text-blue-600 uppercase tracking-tighter">OC {a.pedidos?.orden_compra}</span>
                                 <h3 className="text-[10px] font-black text-[var(--text-main)] uppercase leading-tight line-clamp-1">{a.pedidos?.producto}</h3>
                             </div>
-                            <button onClick={() => onRemoveAssignment(a.id)} className="p-1 text-[var(--text-muted)] hover:text-red-500">
-                                <Trash2 size={12} />
-                            </button>
+                            <div className="flex gap-1">
+                                <button
+                                    onClick={() => onQualityOpen(a)}
+                                    className="p-1 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                                    title="Control de Calidad"
+                                >
+                                    <ShieldCheck size={14} />
+                                </button>
+                                <button onClick={() => onRemoveAssignment(a.id)} className="p-1 text-[var(--text-muted)] hover:text-red-500">
+                                    <Trash2 size={12} />
+                                </button>
+                            </div>
                         </div>
                         <div className="flex items-center justify-between">
                             <div className="flex gap-1 items-center bg-[var(--bg-input)] p-0.5 rounded-lg">

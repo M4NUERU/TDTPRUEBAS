@@ -3,8 +3,8 @@ import ExcelJS from 'exceljs';
 /**
  * Deduce el cliente basado en el prefijo de la Orden de Compra
  */
-const deduceCliente = (oc) => {
-    if (!oc) return 'DESCONOCIDO';
+const deduceCliente = (oc, defaultClient = 'CLIENTE OTROS') => {
+    if (!oc) return defaultClient;
     const cleanOC = String(oc).trim().toUpperCase();
 
     if (cleanOC.startsWith('150')) return 'HOMECENTER';
@@ -13,7 +13,7 @@ const deduceCliente = (oc) => {
     if (cleanOC.startsWith('EXITCO')) return 'EXITO';
     if (cleanOC.startsWith('LPD')) return 'LINIO';
 
-    return 'CLIENTE OTROS';
+    return defaultClient;
 };
 
 /**
@@ -84,7 +84,7 @@ const getCellValue = (cell) => {
     return String(val).trim();
 };
 
-export const parseExcelPlanTrabajo = async (file) => {
+export const parseExcelPlanTrabajo = async (file, defaultClient = 'CLIENTE OTROS') => {
     const arrayBuffer = await file.arrayBuffer();
     const workbook = new ExcelJS.Workbook();
     await workbook.xlsx.load(arrayBuffer);
@@ -128,7 +128,7 @@ export const parseExcelPlanTrabajo = async (file) => {
         historicalOCs.add(ocVal);
         allRawData.push({
             orden_compra: ocVal,
-            cliente: getCellValue(row.getCell(COL_CLIENTE)) || deduceCliente(ocVal),
+            cliente: getCellValue(row.getCell(COL_CLIENTE)) || deduceCliente(ocVal, defaultClient),
             producto: getCellValue(row.getCell(COL_PRODUCTO)),
             cantidad: 1,
             estado: 'ENVIADO',
@@ -136,6 +136,7 @@ export const parseExcelPlanTrabajo = async (file) => {
             transportadora: getCellValue(row.getCell(COL_TRANSPORTADORA)) || 'ENVIA',
             operario_asignado: getCellValue(row.getCell(COL_TAPICERO)),
             fecha_ingreso: '2025-01-01',
+            fecha_limite: getCellValue(row.getCell(COL_FECHA_SALIDA)),
             fecha_despacho: new Date().toISOString()
         });
     }
@@ -183,7 +184,7 @@ export const parseExcelPlanTrabajo = async (file) => {
 
         allRawData.push({
             orden_compra: ocVal,
-            cliente: getCellValue(row.getCell(COL_CLIENTE)) || deduceCliente(ocVal),
+            cliente: getCellValue(row.getCell(COL_CLIENTE)) || deduceCliente(ocVal, defaultClient),
             producto: getCellValue(prodCell),
             cantidad: 1,
             estado,
@@ -191,6 +192,7 @@ export const parseExcelPlanTrabajo = async (file) => {
             transportadora: getCellValue(row.getCell(COL_TRANSPORTADORA)) || 'ENVIA',
             operario_asignado: getCellValue(row.getCell(COL_TAPICERO)),
             fecha_ingreso: new Date().toISOString().split('T')[0],
+            fecha_limite: getCellValue(row.getCell(COL_FECHA_SALIDA)),
             fecha_despacho: estado === 'ENVIADO' ? new Date().toISOString() : null
         });
     }

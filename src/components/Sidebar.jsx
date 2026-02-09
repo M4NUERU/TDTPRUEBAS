@@ -4,7 +4,7 @@ import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
 import {
     LayoutDashboard, Truck, Factory, Warehouse, Users,
-    LogOut, UserCircle, Sun, Moon, DollarSign, ShieldCheck
+    LogOut, UserCircle, Sun, Moon, DollarSign, ShieldCheck, Calendar, Settings
 } from 'lucide-react';
 
 const SidebarItem = ({ to, icon: Icon, label, badge }) => (
@@ -62,8 +62,11 @@ const Sidebar = () => {
                     {isAdmin && (
                         <>
                             <SidebarItem to="/admin" icon={LayoutDashboard} label="Dashboard" />
-                            <SidebarItem to="/planta" icon={Factory} label="Planta" />
+                            <SidebarItem to="/calendario" icon={Calendar} label="Calendario" />
+                            <SidebarItem to="/produccion" icon={Factory} label="Producción" />
+                            <SidebarItem to="/ingenieria" icon={Settings} label="Ingeniería" /> {/* NEW: Reusing Settings or Box icon if imported */}
                             <SidebarItem to="/bodega" icon={Warehouse} label="Bodega" />
+                            <SidebarItem to="/compras" icon={Truck} label="Compras" /> {/* NEW: Reusing Truck or ShoppingCart */}
                             <SidebarItem to="/despacho" icon={Truck} label="Despacho" />
                             <SidebarItem to="/finanzas" icon={DollarSign} label="Contador" />
                         </>
@@ -78,12 +81,13 @@ const Sidebar = () => {
                         <SidebarItem to="/bodega" icon={Warehouse} label="Bodega" />
                     )}
                     {role === 'OPERARIO' && (
-                        <SidebarItem to="/planta" icon={Factory} label="Planta" />
+                        <SidebarItem to="/produccion" icon={Factory} label="Producción" />
                     )}
 
                     <div className="my-4 border-t border-[var(--border-ui)] opacity-30"></div>
 
                     <SidebarItem to="/personal" icon={UserCircle} label="Personal" />
+                    {isAdmin && <SidebarItem to="/configuracion" icon={Settings} label="Configuración" />}
                 </div>
             </div>
 

@@ -8,10 +8,12 @@ import Login from './components/Login';
 // Lazy load pages
 const Admin = lazy(() => import('./pages/Admin'));
 const Despacho = lazy(() => import('./pages/Despacho'));
-const Planta = lazy(() => import('./pages/Planta'));
+const Produccion = lazy(() => import('./pages/Produccion'));
 const Bodega = lazy(() => import('./pages/Bodega'));
 const Finanzas = lazy(() => import('./pages/Finanzas'));
 const Personal = lazy(() => import('./pages/Personal'));
+const Calendario = lazy(() => import('./pages/Calendario'));
+const Configuracion = lazy(() => import('./pages/Configuracion'));
 
 import {
   LayoutDashboard, Truck, Factory, Warehouse, Users,
@@ -27,7 +29,7 @@ const ProtectedRoute = ({ children, allowedRoles, userRole }) => {
 
 const HomeBasedOnRole = ({ role }) => {
   if (['ADMIN', 'SUPERVISOR', 'DESPACHADOR'].includes(role)) return <Navigate to="/admin" replace />;
-  if (role === 'OPERARIO') return <Navigate to="/planta" replace />;
+  if (role === 'OPERARIO') return <Navigate to="/produccion" replace />;
   if (role === 'BODEGUERO') return <Navigate to="/bodega" replace />;
   return <div className="p-10 text-center font-black uppercase text-red-500">Error de Rol</div>;
 };
@@ -85,9 +87,9 @@ const App = () => {
                         <Admin isDark={isDark} toggleTheme={toggle} />
                       </ProtectedRoute>
                     } />
-                    <Route path="/planta" element={
+                    <Route path="/produccion" element={
                       <ProtectedRoute allowedRoles={['ADMIN', 'SUPERVISOR', 'OPERARIO']} userRole={role}>
-                        <Planta />
+                        <Produccion />
                       </ProtectedRoute>
                     } />
                     <Route path="/bodega" element={
@@ -110,6 +112,16 @@ const App = () => {
                         <Personal />
                       </ProtectedRoute>
                     } />
+                    <Route path="/calendario" element={
+                      <ProtectedRoute allowedRoles={['ADMIN', 'SUPERVISOR']} userRole={role}>
+                        <Calendario />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/configuracion" element={
+                      <ProtectedRoute allowedRoles={['ADMIN', 'SUPERVISOR']} userRole={role}>
+                        <Configuracion />
+                      </ProtectedRoute>
+                    } />
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                 </Suspense>
@@ -121,7 +133,7 @@ const App = () => {
               {['ADMIN', 'SUPERVISOR'].includes(role) && (
                 <>
                   <NavItem to="/admin" icon={<LayoutDashboard />} label="Admin" />
-                  <NavItem to="/planta" icon={<Factory />} label="Planta" />
+                  <NavItem to="/produccion" icon={<Factory />} label="Producción" />
                   <NavItem to="/bodega" icon={<Warehouse />} label="Bodega" />
                   <NavItem to="/despacho" icon={<Truck />} label="Despacho" />
                 </>
@@ -136,7 +148,7 @@ const App = () => {
                 <NavItem to="/bodega" icon={<Warehouse />} label="Bodega" />
               )}
               {role === 'OPERARIO' && (
-                <NavItem to="/planta" icon={<Factory />} label="Planta" />
+                <NavItem to="/produccion" icon={<Factory />} label="Producción" />
               )}
 
               <NavItem to="/personal" icon={<UserCircle />} label="Personal" />

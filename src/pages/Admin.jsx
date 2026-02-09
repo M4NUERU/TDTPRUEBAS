@@ -96,6 +96,14 @@ const Admin = () => {
                     </div>
 
                     <div className="flex gap-2">
+                        <Button
+                            variant="primary"
+                            onClick={() => window.location.href = '/produccion?action=new'}
+                            className="rounded-xl flex items-center gap-2 px-6"
+                        >
+                            <Plus size={18} />
+                            <span className="hidden sm:inline">Nuevo Pedido</span>
+                        </Button>
                         <Button variant="ghost" onClick={handleRefresh} loading={adminLoading} size="icon" className="rounded-xl">
                             <RefreshCw size={20} />
                         </Button>

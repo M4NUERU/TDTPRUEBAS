@@ -96,9 +96,26 @@ export const useInventory = () => {
         }
     };
 
-    // Auto-fetch on mount
+    // Auto-fetch on mount & Realtime subscription
     useEffect(() => {
         fetchItems();
+
+        const subscription = supabase
+            .channel('inventario_realtime')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'inventario_insumos' }, (payload) => {
+                if (payload.eventType === 'INSERT') {
+                    setItems(prev => [...prev, payload.new].sort((a, b) => a.nombre.localeCompare(b.nombre)));
+                } else if (payload.eventType === 'UPDATE') {
+                    setItems(prev => prev.map(item => item.id === payload.new.id ? payload.new : item));
+                } else if (payload.eventType === 'DELETE') {
+                    setItems(prev => prev.filter(item => item.id !== payload.old.id));
+                }
+            })
+            .subscribe();
+
+        return () => {
+            subscription.unsubscribe();
+        };
     }, [fetchItems]);
 
     return {

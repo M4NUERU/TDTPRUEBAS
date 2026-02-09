@@ -101,18 +101,45 @@ const Personal = () => {
                 toast.success("¡Entrada registrada! Que tengas buen día.");
             } else if (!asistenciaHoy.salida) {
                 // MARCAR SALIDA
+                const nowTyped = new Date(now);
                 const entrada = new Date(asistenciaHoy.entrada);
-                const salida = new Date(now);
-                const diffMs = salida - entrada;
-                const horas = (diffMs / (1000 * 60 * 60)).toFixed(2);
+                const diffMs = nowTyped - entrada;
+                const horasTotales = (diffMs / (1000 * 60 * 60)).toFixed(2);
+
+                // Calculate Overtime (Extras)
+                let horasExtras = 0;
+                try {
+                    const { data: schedule } = await supabase
+                        .from('horarios_personal')
+                        .select('hora_salida')
+                        .eq('worker_id', user.id)
+                        .single();
+
+                    if (schedule) {
+                        const [schedH, schedM] = schedule.hora_salida.split(':');
+                        const scheduledSalida = new Date(nowTyped);
+                        scheduledSalida.setHours(parseInt(schedH), parseInt(schedM), 0);
+
+                        if (nowTyped > scheduledSalida) {
+                            const extraMs = nowTyped - scheduledSalida;
+                            horasExtras = Math.max(0, (extraMs / (1000 * 60 * 60))).toFixed(2);
+                        }
+                    }
+                } catch (err) {
+                    console.warn('No hay horario específico, no se calculan extras individualmente');
+                }
 
                 const { error } = await supabase
                     .from('asistencia')
-                    .update({ salida: now, horas_trabajadas: horas })
+                    .update({
+                        salida: now,
+                        horas_trabajadas: horasTotales,
+                        horas_extras: horasExtras
+                    })
                     .eq('id', asistenciaHoy.id);
 
                 if (error) throw error;
-                toast.success(`Salida registrada. Trabajaste ${horas} horas hoy.`);
+                toast.success(`Salida registrada. Trabajaste ${horasTotales}h (Extras: ${horasExtras}h)`);
             }
             await fetchData(user.id);
         } catch (error) {

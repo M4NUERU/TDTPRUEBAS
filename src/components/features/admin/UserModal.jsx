@@ -10,14 +10,17 @@ export const UserModal = ({ isOpen, onClose, onSave, editingUser }) => {
         pin_acceso: '',
         rol: 'OPERARIO',
         sucursal: 'BODEGA_PRINCIPAL',
-        empresa: 'TODOTEJIDOS'
+        empresa: 'TODOTEJIDOS',
+        salario_base: 1300000,
+        auxilio_transporte: 162000,
+        tipo_contrato: 'INDEFINIDO'
     });
 
     useEffect(() => {
         if (editingUser) {
             setFormData({ ...editingUser, pin_acceso: '', empresa: editingUser.empresa || 'TODOTEJIDOS' }); // Don't show PIN
         } else {
-            setFormData({ nombre: '', username: '', pin_acceso: '', rol: 'OPERARIO', sucursal: 'BODEGA_PRINCIPAL', empresa: 'TODOTEJIDOS' });
+            setFormData({ nombre: '', username: '', pin_acceso: '', rol: 'OPERARIO', sucursal: 'BODEGA_PRINCIPAL', empresa: 'TODOTEJIDOS', salario_base: 1300000, auxilio_transporte: 162000, tipo_contrato: 'INDEFINIDO' });
         }
     }, [editingUser, isOpen]);
 
@@ -92,6 +95,34 @@ export const UserModal = ({ isOpen, onClose, onSave, editingUser }) => {
                         >
                             <option value="TODOTEJIDOS">TODO TEJIDOS</option>
                             <option value="EMADERA">E-MADERA</option>
+                        </select>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <Input
+                            label="Salario Base"
+                            type="number"
+                            value={formData.salario_base}
+                            onChange={val => setFormData({ ...formData, salario_base: val })}
+                        />
+                        <Input
+                            label="Aux. Transporte"
+                            type="number"
+                            value={formData.auxilio_transporte}
+                            onChange={val => setFormData({ ...formData, auxilio_transporte: val })}
+                        />
+                    </div>
+                    <div>
+                        <label className="text-[9px] font-black uppercase text-[var(--text-muted)] mb-1 block ml-1">Tipo Contrato</label>
+                        <select
+                            className="w-full px-4 py-3 bg-[var(--bg-input)] rounded-xl font-bold uppercase text-xs outline-none dark:text-white border border-[var(--border-ui)]"
+                            value={formData.tipo_contrato}
+                            onChange={e => setFormData({ ...formData, tipo_contrato: e.target.value })}
+                        >
+                            <option value="INDEFINIDO">INDEFINIDO</option>
+                            <option value="FIJO">TÉRMINO FIJO</option>
+                            <option value="PRESTACION_SERVICIOS">PRESTACIÓN DE SERVICIOS</option>
+                            <option value="OBRA_LABOR">OBRA LABOR</option>
                         </select>
                     </div>
                 </div>

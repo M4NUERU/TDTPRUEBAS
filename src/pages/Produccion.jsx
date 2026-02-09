@@ -8,10 +8,14 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { WorkerCard } from '../components/features/planta/WorkerCard';
 import { AssignmentModal } from '../components/features/planta/AssignmentModal';
+import { QualityModal } from '../components/features/planta/QualityModal';
 import { exportDailyPlanToExcel } from '../utils/excelExport';
+import { parseExcelPlanTrabajo } from '../utils/excelParser';
+import { upsertPedidos } from '../api/orderService';
+import { toast } from 'sonner';
 // Note: parseDailyPlanExcel logic is complex and might need its own hook or util refactor later, keeping import for now if needed or moving to a utility button logic
 
-const Planta = () => {
+const Produccion = () => {
     // Auth
     const user = useAuthStore((state) => state.user);
     const isOperario = user?.rol === 'OPERARIO';
@@ -29,6 +33,8 @@ const Planta = () => {
     // UI State
     const [activeWorker, setActiveWorker] = useState(null);
     const [showAssignModal, setShowAssignModal] = useState(false);
+    const [showQualityModal, setShowQualityModal] = useState(false);
+    const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [historySearch, setHistorySearch] = useState('');
 
     const handleAssignClick = (worker) => {
@@ -47,6 +53,54 @@ const Planta = () => {
         fetchOrders();
     };
 
+    const handleQualityOpen = (assignment) => {
+        setSelectedAssignment(assignment);
+        setShowQualityModal(true);
+    };
+
+    const handleImportExcel = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Reset state for loading
+        try {
+            // Fetch default client from config
+            const { data: configData } = await supabase
+                .from('erp_config')
+                .select('value')
+                .eq('key', 'cliente_predeterminado')
+                .single();
+
+            const defaultClient = configData?.value || 'TODOTEJIDOS';
+
+            toast.loading('Procesando archivo masivo...', { id: 'import-excel' });
+
+            const parsedOrders = await parseExcelPlanTrabajo(file, defaultClient);
+            const { error } = await upsertPedidos(parsedOrders);
+
+            if (error) throw error;
+
+            toast.success(`${parsedOrders.length} pedidos procesados y sincronizados`, { id: 'import-excel' });
+            fetchOrders(); // Refresh pending list
+        } catch (err) {
+            console.error('Error importando Excel:', err);
+            toast.error('Error al procesar el archivo: ' + err.message, { id: 'import-excel' });
+        } finally {
+            e.target.value = ''; // Reset input
+        }
+    };
+
+    const handleSaveQuality = async (id, qualityData) => {
+        try {
+            // Update assignment with quality data
+            await updateProgress(selectedAssignment, 0, qualityData);
+            setShowQualityModal(false);
+            toast.success('Control de calidad registrado');
+        } catch (err) {
+            toast.error('Error al guardar calidad: ' + err.message);
+        }
+    };
+
     // Filter workers for current view logic
     const displayedWorkers = workers.filter(w => !isOperario || w.nombre.toUpperCase() === user.nombre?.toUpperCase());
 
@@ -59,7 +113,7 @@ const Planta = () => {
                         <div className="p-2 bg-blue-600 rounded-xl text-white">
                             <Factory size={24} />
                         </div>
-                        <h1 className="text-2xl font-black tracking-tighter uppercase dark:text-white">PLANTA</h1>
+                        <h1 className="text-2xl font-black tracking-tighter uppercase dark:text-white italic text-blue-600">PRODUCCIÓN</h1>
                     </div>
 
                     <div className="flex items-center gap-2 w-full md:w-auto">
@@ -102,15 +156,28 @@ const Planta = () => {
 
                 {canManagePlanta && view === 'EN_PROCESO' && (
                     <div className="max-w-[98%] mx-auto mt-4 flex justify-between items-center">
-                        <Button
-                            variant="secondary"
-                            size="sm"
-                            icon={Download}
-                            onClick={() => exportDailyPlanToExcel(assignments, selectedDate, workers)}
-                        >
-                            Exportar
-                        </Button>
-                        {/* Import button temporarily removed to streamline, add back if needed with logic refactor */}
+                        <div className="flex gap-2">
+                            <Button
+                                variant="secondary"
+                                size="sm"
+                                icon={Download}
+                                onClick={() => exportDailyPlanToExcel(assignments, selectedDate, workers)}
+                            >
+                                Exportar
+                            </Button>
+
+                            <label className="cursor-pointer">
+                                <div className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-blue-700 transition-all shadow-sm">
+                                    <Upload size={14} /> Importar Plan
+                                </div>
+                                <input
+                                    type="file"
+                                    accept=".xlsx, .xls"
+                                    className="hidden"
+                                    onChange={handleImportExcel}
+                                />
+                            </label>
+                        </div>
                     </div>
                 )}
             </div>
@@ -128,6 +195,7 @@ const Planta = () => {
                                     onAssign={handleAssignClick}
                                     onRemoveAssignment={removeAssignment}
                                     onUpdateProgress={updateProgress}
+                                    onQualityOpen={handleQualityOpen}
                                 />
                             );
                         })}
@@ -164,8 +232,17 @@ const Planta = () => {
                 orders={pendingOrders}
                 onAssign={handleAssignSubmit}
             />
+
+            {selectedAssignment && (
+                <QualityModal
+                    isOpen={showQualityModal}
+                    onClose={() => setShowQualityModal(false)}
+                    assignment={selectedAssignment}
+                    onSave={handleSaveQuality}
+                />
+            )}
         </div>
     );
 };
 
-export default Planta;
+export default Produccion;
