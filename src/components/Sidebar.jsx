@@ -3,8 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
 import {
-    LayoutDashboard, Truck, Factory, Warehouse, Users,
-    LogOut, UserCircle, Sun, Moon, DollarSign, ShieldCheck, Calendar, Settings
+    LogOut, UserCircle, Sun, Moon, DollarSign, ShieldCheck, Calendar, Settings, Box, ShoppingCart
 } from 'lucide-react';
 
 const SidebarItem = ({ to, icon: Icon, label, badge }) => (
@@ -54,6 +53,11 @@ const Sidebar = () => {
                         <span className="text-[10px] font-bold text-[var(--brand)] tracking-widest uppercase">
                             Manager Pro
                         </span>
+                        {localStorage.getItem('modo_demo') === 'true' && (
+                            <span className="ml-2 bg-purple-600 text-white text-[9px] px-2 py-0.5 rounded-full font-black uppercase">
+                                DEMO
+                            </span>
+                        )}
                     </div>
                 </div>
 
@@ -64,9 +68,9 @@ const Sidebar = () => {
                             <SidebarItem to="/admin" icon={LayoutDashboard} label="Dashboard" />
                             <SidebarItem to="/calendario" icon={Calendar} label="Calendario" />
                             <SidebarItem to="/produccion" icon={Factory} label="Producción" />
-                            <SidebarItem to="/ingenieria" icon={Settings} label="Ingeniería" /> {/* NEW: Reusing Settings or Box icon if imported */}
+                            <SidebarItem to="/ingenieria" icon={Box} label="Ingeniería" />
                             <SidebarItem to="/bodega" icon={Warehouse} label="Bodega" />
-                            <SidebarItem to="/compras" icon={Truck} label="Compras" /> {/* NEW: Reusing Truck or ShoppingCart */}
+                            <SidebarItem to="/compras" icon={ShoppingCart} label="Compras" />
                             <SidebarItem to="/despacho" icon={Truck} label="Despacho" />
                             <SidebarItem to="/finanzas" icon={DollarSign} label="Contador" />
                         </>
@@ -117,7 +121,11 @@ const Sidebar = () => {
                     </button>
 
                     <button
-                        onClick={logout}
+                        onClick={() => {
+                            logout();
+                            localStorage.removeItem('modo_demo');
+                            if (localStorage.getItem('modo_demo')) window.location.reload(); // Force reload if it was active to reset Supabase client
+                        }}
                         className="p-3 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-xl transition-all border border-red-500/20 flex items-center justify-center shadow-sm"
                         title="Cerrar Sesión"
                     >

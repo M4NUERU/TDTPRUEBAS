@@ -14,10 +14,12 @@ const Finanzas = lazy(() => import('./pages/Finanzas'));
 const Personal = lazy(() => import('./pages/Personal'));
 const Calendario = lazy(() => import('./pages/Calendario'));
 const Configuracion = lazy(() => import('./pages/Configuracion'));
+const Compras = lazy(() => import('./pages/Compras'));
+const Ingenieria = lazy(() => import('./pages/Ingenieria'));
 
 import {
   LayoutDashboard, Truck, Factory, Warehouse, Users,
-  Package, LogOut, ChevronRight, UserCircle, AlertTriangle,
+  LogOut, UserCircle, ShoppingCart, Box,
   Sun, Moon, DollarSign, Settings
 } from 'lucide-react';
 
@@ -122,6 +124,16 @@ const App = () => {
                         <Configuracion />
                       </ProtectedRoute>
                     } />
+                    <Route path="/compras" element={
+                      <ProtectedRoute allowedRoles={['ADMIN', 'SUPERVISOR']} userRole={role}>
+                        <Compras />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/ingenieria" element={
+                      <ProtectedRoute allowedRoles={['ADMIN', 'SUPERVISOR']} userRole={role}>
+                        <Ingenieria />
+                      </ProtectedRoute>
+                    } />
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                 </Suspense>
@@ -135,6 +147,8 @@ const App = () => {
                   <NavItem to="/admin" icon={<LayoutDashboard />} label="Admin" />
                   <NavItem to="/produccion" icon={<Factory />} label="Producción" />
                   <NavItem to="/bodega" icon={<Warehouse />} label="Bodega" />
+                  <NavItem to="/ingenieria" icon={<Box />} label="Ingeniería" />
+                  <NavItem to="/compras" icon={<ShoppingCart />} label="Compras" />
                   <NavItem to="/despacho" icon={<Truck />} label="Despacho" />
                 </>
               )}

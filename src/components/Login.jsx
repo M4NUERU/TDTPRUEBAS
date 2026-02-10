@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { loginWithPIN } from '../api/userService';
 import { toast } from 'sonner';
-import { Package, X, Delete, ChevronRight, Lock, UserCircle, Settings } from 'lucide-react';
+import { Package, X, Delete, ChevronRight, Lock, UserCircle, Settings, MonitorPlay } from 'lucide-react';
 
 const Login = ({ onLoginSuccess }) => {
     const [pin, setPin] = useState('');
@@ -171,6 +171,18 @@ const Login = ({ onLoginSuccess }) => {
                         </div>
                     </>
                 )}
+
+                <div className="mt-6 mb-2">
+                    <button
+                        onClick={() => {
+                            localStorage.setItem('modo_demo', 'true');
+                            window.location.reload();
+                        }}
+                        className="w-full py-3 rounded-2xl font-bold text-xs uppercase tracking-widest text-purple-500 hover:bg-purple-50 dark:hover:bg-purple-900/10 transition-all flex items-center justify-center gap-2"
+                    >
+                        <MonitorPlay size={16} /> Entrar Versión Demo
+                    </button>
+                </div>
 
                 <div className="text-center">
                     <p className="text-[10px] font-black uppercase text-[var(--text-muted)] tracking-widest flex items-center justify-center gap-2">
