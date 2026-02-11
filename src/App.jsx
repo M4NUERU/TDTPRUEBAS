@@ -1,3 +1,13 @@
+/**
+ * © 2026 TodoTejidos SAS. All rights reserved.
+ * 
+ * PROPRIETARY AND CONFIDENTIAL.
+ * 
+ * This file is part of TodoTejidos Manager.
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary code by TodoTejidos SAS.
+ */
+
 import React, { useState, useEffect, Suspense, lazy, Component } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, NavLink } from 'react-router-dom';
 import { Toaster } from 'sonner';
