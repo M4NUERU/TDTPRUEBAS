@@ -1,11 +1,11 @@
 /**
- * © 2026 TodoTejidos SAS. All rights reserved.
+ * © 2026 modulR. All rights reserved.
  * 
  * PROPRIETARY AND CONFIDENTIAL.
  * 
- * This file is part of TodoTejidos Manager.
+ * This file is part of modulR Manager.
  * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary code by TodoTejidos SAS.
+ * Proprietary code by modulR.
  */
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -200,7 +200,7 @@ const Personal = () => {
 
         doc.setFontSize(12);
         doc.setFont("helvetica", "normal");
-        doc.text("TodoTejidos SAS", 70, 40);
+        doc.text("modulR", 70, 40);
         doc.text(`Fecha de Emisión: ${new Date(vale.created_at).toLocaleDateString()}`, 70, 48);
         doc.text(`Folio: ${vale.id.slice(0, 8).toUpperCase()}`, 150, 48);
 

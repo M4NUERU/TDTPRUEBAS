@@ -1,11 +1,11 @@
 /**
- * © 2026 TodoTejidos SAS. All rights reserved.
+ * © 2026 modulR. All rights reserved.
  * 
  * PROPRIETARY AND CONFIDENTIAL.
  * 
- * This file is part of TodoTejidos Manager.
+ * This file is part of modulR Manager.
  * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary code by TodoTejidos SAS.
+ * Proprietary code by modulR.
  */
 
 import ExcelJS from 'exceljs';
@@ -18,7 +18,7 @@ import { toast } from 'sonner';
  */
 export const exportConfigToExcel = async (options) => {
     const workbook = new ExcelJS.Workbook();
-    workbook.creator = 'TodoTejidos Manager';
+    workbook.creator = 'modulR Manager';
     workbook.created = new Date();
 
     let hasData = false;
