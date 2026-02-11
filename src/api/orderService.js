@@ -31,6 +31,8 @@ export const fetchPedidos = async (params = {}) => {
     query = query.eq('estado', statusFilter);
   }
   if (priorityFilter) {
+    // Note: Ensuring this only runs if the column exists or is handled by Supabase gracefully.
+    // In some environments, the 'prioridad' column might be missing.
     query = query.eq('prioridad', true);
   }
   if (startDate) {

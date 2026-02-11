@@ -146,7 +146,7 @@ const PersonalAdmin = () => {
         doc.setFont("helvetica", "bold");
         doc.text("EMPLEADO:", 30, 95);
         doc.setFont("helvetica", "normal");
-        doc.text(vale.operarios?.nombre?.toUpperCase() || "N/A", 60, 95);
+        doc.text(vale.operarios?.nombre?.toUpperCase() || "SIN NOMBRE", 60, 95);
 
         doc.setFont("helvetica", "bold");
         doc.text("TIPO:", 30, 110);

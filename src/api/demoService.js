@@ -118,10 +118,10 @@ class DemoQueryBuilder {
                     break;
             }
 
-            resolve({ data: resultData, error: null });
+            resolve({ data: resultData, count: Array.isArray(filtered) ? filtered.length : (resultData ? 1 : 0), error: null });
 
         } catch (e) {
-            resolve({ data: null, error: { message: e.message } });
+            resolve({ data: null, count: 0, error: { message: e.message } });
         }
     }
 }

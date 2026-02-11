@@ -18,9 +18,9 @@ export const DEMO_DATA = {
         { id: 'global', horario_inicio: '07:30', horario_fin: '17:30', valor_hora_extra: 8500 }
     ],
     operarios: [
-        { id: 'op1', nombre: 'JUAN PEREZ', rol: 'TAPICERO', activo: true, salario_base: 1300000 },
-        { id: 'op2', nombre: 'MARIA LOPEZ', rol: 'COSTURERA', activo: true, salario_base: 1250000 },
-        { id: 'op3', nombre: 'PEDRO GOMEZ', rol: 'AUXILIAR', activo: true, salario_base: 1160000 }
+        { id: 'op1', nombre: 'JUAN PEREZ', rol: 'TAPICERO', activo: true, salario_base: 1300000, pin: '1111' },
+        { id: 'op2', nombre: 'MARIA LOPEZ', rol: 'COSTURERA', activo: true, salario_base: 1250000, pin: '2222' },
+        { id: 'op3', nombre: 'PEDRO GOMEZ', rol: 'AUXILIAR', activo: true, salario_base: 1160000, pin: '3333' }
     ],
     inventario_insumos: [
         { id: 'ins1', nombre: 'TELA JACQUARD GRIS', codigo: 'TEL-001', categoria: 'TELAS', cantidad: 150, unidad_medida: 'METRO', stock_minimo: 20 },
@@ -52,10 +52,10 @@ export const DEMO_DATA = {
         { id: 'det1', orden_id: 'oc1', insumo_id: 'ins1', cantidad_solicitada: 100, precio_unitario: 54000 }
     ],
     pedidos: [
-        { id: 'ped1', oc: 'OC-5501', cliente: 'MUEBLES JAMAR', producto: 'SOFÁ CHESTER 3P', cantidad: 5, estado: 'PENDIENTE', prioridad: true, created_at: '2026-02-08T09:00:00Z' },
-        { id: 'ped2', oc: 'OC-5502', cliente: 'TIENDAS ARA', producto: 'BASECAMA MATRIMONIAL', cantidad: 10, estado: 'ENVIADO', prioridad: false, created_at: '2026-02-09T11:00:00Z' }
+        { id: 'ped1', orden_compra: 'OC-5501', cliente: 'MUEBLES JAMAR', producto: 'SOFÁ CHESTER 3P', cantidad: 5, estado: 'PENDIENTE', prioridad: true, created_at: '2026-02-08T09:00:00Z' },
+        { id: 'ped2', orden_compra: 'OC-5502', cliente: 'TIENDAS ARA', producto: 'BASECAMA MATRIMONIAL', cantidad: 10, estado: 'ENVIADO', prioridad: false, created_at: '2026-02-09T11:00:00Z' }
     ],
-    finanzas_transacciones: [
+    finanzas: [
         { id: 't1', tipo: 'INGRESO', categoria: 'VENTA', monto: 1200000, descripcion: 'Abono Pedido Ara', fecha: '2026-02-09' },
         { id: 't2', tipo: 'EGRESO', categoria: 'MATERIALES', monto: 450000, descripcion: 'Pago Factura Textiles', fecha: '2026-02-10' }
     ]

@@ -212,8 +212,8 @@ const Personal = () => {
         doc.text("DETALLES DEL EMPLEADO", 15, 75);
 
         doc.setFontSize(12);
-        doc.text(`Nombre: ${user.nombre.toUpperCase()}`, 15, 85);
-        doc.text(`ID Empleado: ${user.id}`, 15, 92);
+        doc.text(`Nombre: ${user?.nombre?.toUpperCase() || 'USUARIO'}`, 15, 85);
+        doc.text(`ID Empleado: ${user?.id || 'N/A'}`, 15, 92);
 
         doc.setFontSize(14);
         doc.text("DETALLES DE LA SOLICITUD", 15, 110);

@@ -107,16 +107,16 @@ const Sidebar = () => {
 
             {/* Bottom Section - User & Settings */}
             <div className="mt-auto p-4 border-t border-[var(--border-ui)] bg-[var(--bg-input)]/30">
-                <div className="flex items-center gap-3 p-3 bg-[var(--bg-card)] rounded-2xl border border-[var(--border-ui)]/50 shadow-sm mb-4">
-                    <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[var(--brand)] to-blue-400 flex items-center justify-center text-white font-black uppercase shadow-sm">
+                <div className="flex items-center gap-3 p-3 bg-[var(--bg-card)] rounded-xl border border-[var(--border-ui)] shadow-sm mb-4">
+                    <div className="h-10 w-10 rounded-lg bg-slate-800 flex items-center justify-center text-white font-black uppercase shadow-sm shrink-0 border border-slate-700">
                         {user?.nombre?.charAt(0) || 'U'}
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className="text-sm font-black text-[var(--text-main)] truncate uppercase">
-                            {user?.nombre || 'Usuario'}
+                        <p className="text-xs font-black text-[var(--text-main)] truncate uppercase">
+                            {user?.nombre || 'SISTEMA'}
                         </p>
-                        <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-tight">
-                            {user?.rol || 'Visitante'}
+                        <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-tight opacity-70">
+                            {user?.rol || 'SIN ACCESO'}
                         </p>
                     </div>
                 </div>

@@ -98,7 +98,7 @@ export const useAdmin = () => {
 
     const resetPassword = async (id, newPin) => {
         try {
-            const { error } = await supabase.from('usuarios').update({ pin_acceso: newPin }).eq('id', id);
+            const { error } = await supabase.from('usuarios').update({ pin: newPin }).eq('id', id);
             if (error) throw error;
             toast.success('PIN restablecido');
         } catch (err) {

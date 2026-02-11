@@ -17,7 +17,7 @@ export const UserModal = ({ isOpen, onClose, onSave, editingUser }) => {
     const [formData, setFormData] = useState({
         nombre: '',
         username: '',
-        pin_acceso: '',
+        pin: '',
         rol: 'OPERARIO',
         sucursal: 'BODEGA_PRINCIPAL',
         empresa: 'TODOTEJIDOS',
@@ -28,9 +28,9 @@ export const UserModal = ({ isOpen, onClose, onSave, editingUser }) => {
 
     useEffect(() => {
         if (editingUser) {
-            setFormData({ ...editingUser, pin_acceso: '', empresa: editingUser.empresa || 'TODOTEJIDOS' }); // Don't show PIN
+            setFormData({ ...editingUser, pin: '', empresa: editingUser.empresa || 'TODOTEJIDOS' });
         } else {
-            setFormData({ nombre: '', username: '', pin_acceso: '', rol: 'OPERARIO', sucursal: 'BODEGA_PRINCIPAL', empresa: 'TODOTEJIDOS', salario_base: 1300000, auxilio_transporte: 162000, tipo_contrato: 'INDEFINIDO' });
+            setFormData({ nombre: '', username: '', pin: '', rol: 'OPERARIO', sucursal: 'BODEGA_PRINCIPAL', empresa: 'TODOTEJIDOS', salario_base: 1300000, auxilio_transporte: 162000, tipo_contrato: 'INDEFINIDO' });
         }
     }, [editingUser, isOpen]);
 
@@ -38,10 +38,10 @@ export const UserModal = ({ isOpen, onClose, onSave, editingUser }) => {
         e.preventDefault();
 
         // Validation simple
-        if (!editingUser && !formData.pin_acceso) return alert('PIN requerido');
+        if (!editingUser && !formData.pin) return alert('PIN requerido');
 
         const payload = { ...formData };
-        if (!payload.pin_acceso) delete payload.pin_acceso; // Don't update PIN if empty on edit
+        if (!payload.pin) delete payload.pin; // Don't update PIN if empty on edit
 
         const success = await onSave(payload, !!editingUser);
         if (success) onClose();
@@ -75,8 +75,8 @@ export const UserModal = ({ isOpen, onClose, onSave, editingUser }) => {
                     <Input
                         label={editingUser ? "Nuevo PIN (Opcional)" : "PIN de Acceso"}
                         type="password"
-                        value={formData.pin_acceso}
-                        onChange={val => setFormData({ ...formData, pin_acceso: val })}
+                        value={formData.pin}
+                        onChange={val => setFormData({ ...formData, pin: val })}
                         required={!editingUser}
                         placeholder="4 dígitos"
                     />
