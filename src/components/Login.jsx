@@ -96,8 +96,8 @@ const Login = ({ onLoginSuccess }) => {
             </div>
 
             <div className="text-center mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                <h1 className="text-3xl font-black mb-1 uppercase tracking-tighter italic">Todo<span className="text-[var(--brand)]">Tejidos</span></h1>
-                <p className="text-[var(--text-muted)] text-[9px] font-black uppercase tracking-[0.4em] opacity-50">Smart Factory Management</p>
+                <h1 className="text-3xl font-black mb-1 uppercase tracking-tighter italic">modul<span className="text-[var(--brand)]">R</span></h1>
+                <p className="text-[var(--text-muted)] text-[9px] font-black uppercase tracking-[0.4em] opacity-50">Smart Modular Management</p>
             </div>
 
             <div className="w-full max-w-xs space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">

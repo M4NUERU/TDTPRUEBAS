@@ -58,7 +58,7 @@ const Sidebar = () => {
                     </div>
                     <div>
                         <h1 className="text-xl font-black tracking-tighter uppercase leading-none text-[var(--text-main)]">
-                            TODOTEJIDOS
+                            modulR
                         </h1>
                         <span className="text-[10px] font-bold text-[var(--brand)] tracking-widest uppercase">
                             Manager Pro

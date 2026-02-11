@@ -15,9 +15,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'TodoTejidos Manager',
-        short_name: 'TTJ Manager',
-        description: 'Gestión logística para TodoTejidos',
+        name: 'modulR Manager',
+        short_name: 'modulR',
+        description: 'Gestión modular inteligente para modulR',
         theme_color: '#2563eb',
         icons: [
           {

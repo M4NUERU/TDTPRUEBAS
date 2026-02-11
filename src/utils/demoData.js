@@ -29,7 +29,7 @@ export const DEMO_DATA = {
         { id: 'ins4', nombre: 'PEGANTE INDUSTRIAL', codigo: 'INS-002', categoria: 'OTROS', cantidad: 12, unidad_medida: 'ROLLO', stock_minimo: 5 }
     ],
     catalogo_productos: [
-        { id: 'prod1', nombre: 'SOFÁ CHESTER 3P', categoria: 'SOFAS', empresa: 'TODOTEJIDOS', precio_base: 1850000 },
+        { id: 'prod1', nombre: 'SOFÁ CHESTER 3P', categoria: 'SOFAS', empresa: 'modulR', precio_base: 1850000 },
         { id: 'prod2', nombre: 'BASECAMA MATRIMONIAL', categoria: 'BASECAMAS', empresa: 'EMADERA', precio_base: 450000 }
     ],
     recetas: [
@@ -45,7 +45,7 @@ export const DEMO_DATA = {
         { id: 'prov2', razon_social: 'MADERAS DEL NORTE', nit: '800.555.444-2', contacto_nombre: 'Diana M.', categoria_insumo: 'MADERAS' }
     ],
     ordenes_compra: [
-        { id: 'oc1', consecutivo: 1001, proveedor_id: 'prov1', empresa_solicitante: 'TODOTEJIDOS', estado: 'RECIBIDA', total_estimado: 5400000, created_at: '2026-02-01T10:00:00Z' },
+        { id: 'oc1', consecutivo: 1001, proveedor_id: 'prov1', empresa_solicitante: 'modulR', estado: 'RECIBIDA', total_estimado: 5400000, created_at: '2026-02-01T10:00:00Z' },
         { id: 'oc2', consecutivo: 1002, proveedor_id: 'prov2', empresa_solicitante: 'EMADERA', estado: 'ENVIADA', total_estimado: 1250000, created_at: '2026-02-05T14:30:00Z' }
     ],
     ordenes_compra_detalles: [
