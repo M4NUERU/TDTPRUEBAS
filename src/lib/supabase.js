@@ -14,7 +14,8 @@ import { demoService } from '../api/demoService'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-const isDemo = localStorage.getItem('modo_demo') === 'true';
+// Forced demo mode for deployment
+const isDemo = true; // localStorage.getItem('modo_demo') === 'true';
 
 let client;
 
