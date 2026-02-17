@@ -206,6 +206,7 @@ const Produccion = () => {
                                     onRemoveAssignment={removeAssignment}
                                     onUpdateProgress={updateProgress}
                                     onQualityOpen={handleQualityOpen}
+                                    canManage={canManagePlanta}
                                 />
                             );
                         })}

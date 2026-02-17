@@ -31,7 +31,7 @@ const Bodega = () => {
     // Auth
     const user = useAuthStore((state) => state.user);
     const isAdmin = user?.rol === 'ADMIN';
-    const canEdit = ['ADMIN', 'SUPERVISOR', 'BODEGUERO'].includes(user?.rol);
+    const canEdit = ['ADMIN', 'SUPERVISOR'].includes(user?.rol);
 
     // Logic Hook
     const { items, loading, fetchItems, updateStock, saveItem, deleteItem } = useInventory();
