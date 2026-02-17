@@ -28,8 +28,9 @@ import { toast } from 'sonner';
 const Produccion = () => {
     // Auth
     const user = useAuthStore((state) => state.user);
-    const isOperario = user?.rol === 'OPERARIO';
-    const canManagePlanta = user?.rol === 'ADMIN' || user?.rol === 'SUPERVISOR';
+    const userRole = user?.rol?.toUpperCase();
+    const isOperario = userRole === 'OPERARIO';
+    const canManagePlanta = userRole === 'ADMIN' || userRole === 'SUPERVISOR';
 
     // State
     const [view, setView] = useState('EN_PROCESO'); // EN_PROCESO, PENDIENTE, HISTORIAL

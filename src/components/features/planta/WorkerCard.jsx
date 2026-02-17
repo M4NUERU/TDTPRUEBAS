@@ -12,11 +12,7 @@ import React from 'react';
 import { User, Plus, Minus, Trash2, Clock, ShieldCheck } from 'lucide-react';
 import { Button } from '../../ui/Button';
 
-<<<<<<< HEAD
-export const WorkerCard = ({ worker, assignments, onAssign, onRemoveAssignment, onUpdateProgress, isOperario, onQualityOpen }) => {
-=======
-export const WorkerCard = ({ worker, assignments, onAssign, onRemoveAssignment, onUpdateProgress, isOperario, canManage = true }) => {
->>>>>>> fe0b4a4 ( feat: restringir tareas a solo supervisores - empleados solo visualizan)
+export const WorkerCard = ({ worker, assignments, onAssign, onRemoveAssignment, onUpdateProgress, isOperario, onQualityOpen, canManage = true }) => {
     const total = assignments.reduce((acc, a) => acc + a.unidades_totales, 0);
     const done = assignments.reduce((acc, a) => acc + a.unidades_completadas, 0);
 
@@ -48,28 +44,25 @@ export const WorkerCard = ({ worker, assignments, onAssign, onRemoveAssignment, 
                                 <span className="text-[7px] font-black text-blue-600 uppercase tracking-tighter">OC {a.pedidos?.orden_compra}</span>
                                 <h3 className="text-[10px] font-black text-[var(--text-main)] uppercase leading-tight line-clamp-1">{a.pedidos?.producto}</h3>
                             </div>
-<<<<<<< HEAD
-                            <div className="flex gap-1">
-                                <button
-                                    onClick={() => onQualityOpen(a)}
-                                    className="p-1 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                                    title="Control de Calidad"
-                                >
-                                    <ShieldCheck size={14} />
-                                </button>
-                                <button onClick={() => onRemoveAssignment(a.id)} className="p-1 text-[var(--text-muted)] hover:text-red-500">
-                                    <Trash2 size={12} />
-                                </button>
-                            </div>
-=======
+
+                            {/* Solo supervisores ven controles de calidad y eliminación */}
                             {canManage && (
-                                <button onClick={() => onRemoveAssignment(a.id)} className="p-1 text-[var(--text-muted)] hover:text-red-500">
-                                    <Trash2 size={12} />
-                                </button>
+                                <div className="flex gap-1">
+                                    <button
+                                        onClick={() => onQualityOpen(a)}
+                                        className="p-1 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                                        title="Control de Calidad"
+                                    >
+                                        <ShieldCheck size={14} />
+                                    </button>
+                                    <button onClick={() => onRemoveAssignment(a.id)} className="p-1 text-[var(--text-muted)] hover:text-red-500">
+                                        <Trash2 size={12} />
+                                    </button>
+                                </div>
                             )}
->>>>>>> fe0b4a4 ( feat: restringir tareas a solo supervisores - empleados solo visualizan)
                         </div>
                         <div className="flex items-center justify-between">
+                            {/* Solo supervisores ven controles de progreso +/- */}
                             {canManage ? (
                                 <div className="flex gap-1 items-center bg-[var(--bg-input)] p-0.5 rounded-lg">
                                     <button onClick={() => onUpdateProgress(a, -1)} className="p-1 text-[var(--text-muted)] hover:bg-white dark:hover:bg-slate-700 rounded-md"><Minus size={12} /></button>
@@ -77,7 +70,9 @@ export const WorkerCard = ({ worker, assignments, onAssign, onRemoveAssignment, 
                                     <button onClick={() => onUpdateProgress(a, 1)} className="p-1 text-blue-600 hover:bg-white dark:hover:bg-slate-700 rounded-md"><Plus size={12} /></button>
                                 </div>
                             ) : (
-                                <span className="text-[11px] font-black text-[var(--text-main)] px-1">{a.unidades_completadas}</span>
+                                <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[var(--bg-input)] rounded-lg">
+                                    <span className="text-[11px] font-black text-blue-600">{a.unidades_completadas}</span>
+                                </div>
                             )}
                             <span className="text-[10px] font-black text-[var(--text-muted)] italic">/ {a.unidades_totales}</span>
                         </div>
