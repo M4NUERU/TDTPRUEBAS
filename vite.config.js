@@ -37,4 +37,16 @@ export default defineConfig({
       }
     })
   ],
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-ui': ['lucide-react'],
+          'vendor-utils': ['exceljs', 'jspdf', 'jspdf-autotable', 'zustand'],
+          'react-vendor': ['react', 'react-dom', 'react-router-dom']
+        }
+      }
+    }
+  }
 })
